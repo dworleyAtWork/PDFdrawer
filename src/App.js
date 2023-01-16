@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
-// import samplePDF from "./na.pdf";
+import pdf from "./na.pdf";
 import SinglePage from "./Components/SinglePage";
 import ModifyPage from "./Components/ModifyPage";
 import AutoTextArea from "./Components/AutoTextArea";
@@ -43,6 +43,13 @@ export default function App() {
     await setPdfLoading(false);
     return await pdfDataHigh;
   }
+
+  useEffect(() => {
+    fetch(pdf).then(res=>{
+      setPDFDataHighlight(pdf)
+    })
+  }, [result]);
+
 
   useEffect(() => {
     if (isText) {
@@ -210,7 +217,7 @@ export default function App() {
         </button>
       </div>
 
-      {/* 
+      {/*
       <button onClick = {undo} style = {{marginTop: "1%"}}>Undo</button>
       <button onClick = {redo} style = {{marginTop: "1%"}}>Redo</button>
       <br></br>

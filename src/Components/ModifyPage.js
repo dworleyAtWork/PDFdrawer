@@ -1,22 +1,30 @@
 import React, { useEffect } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import pdf from '../na.pdf'
 function ModifyPage(props) {
 
     useEffect(() => {
         if(props.buttonType === "download")
         {
-            modifyPdf();
+            //fetch("").then(res => {
+                //console.log(res)
+                modifyPdf();
+           // })
             props.resetButtonType();
         }
     },[props.buttonType])
-    
-    async function modifyPdf()
+
+    async function modifyPdf(input)
     {
-          const existingPdfBytes = await fetch(props.pdf).then(res => 
+        console.log(props.pdf)
+          const existingPdfBytes = await fetch(pdf).then(res =>
             {
                 return(res.arrayBuffer());
             })
 
+
+
+        var bytes = new Uint8Array(existingPdfBytes);
         const pdfDoc = await PDFDocument.load(existingPdfBytes)
         const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
         const pages = pdfDoc.getPages()
@@ -51,7 +59,7 @@ function ModifyPage(props) {
                 });
             }
         })
-        
+
         const pdfBytes = await pdfDoc.save()
 
         let blob = new Blob([pdfBytes], {type: "application/pdf"});
